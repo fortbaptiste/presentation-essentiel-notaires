@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonaparte LCB-FT — Présentation Sébastien & Patrick</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwindcss.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ['system-ui', '-apple-system', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+      },
+      boxShadow: {
+        brutal: '4px 4px 0px 0px #000',
+        'brutal-lg': '6px 6px 0px 0px #000',
+        'brutal-xl': '8px 8px 0px 0px #000',
+      }
+    }
+  }
+}
+</script>
+<style>
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+@keyframes shake { 0%,100%{transform:rotate(0)} 25%{transform:rotate(-2deg)} 75%{transform:rotate(2deg)} }
+@keyframes pulse-border { 0%,100%{border-color:#ccc} 50%{border-color:#000} }
+@keyframes spin-slow { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-marquee { animation: marquee 25s linear infinite; }
+.animate-shake:hover { animation: shake 0.3s ease-in-out; }
+.animate-pulse-border { animation: pulse-border 2s ease-in-out infinite; }
+.animate-spin-slow { animation: spin-slow 20s linear infinite; }
+
+.fade-in { opacity:0; transform:translateY(30px); transition:all 0.7s cubic-bezier(0.16,1,0.3,1); }
+.fade-in.visible { opacity:1; transform:translateY(0); }
+.fade-in-left { opacity:0; transform:translateX(-40px); transition:all 0.7s cubic-bezier(0.16,1,0.3,1); }
+.fade-in-left.visible { opacity:1; transform:translateX(0); }
+.fade-in-right { opacity:0; transform:translateX(40px); transition:all 0.7s cubic-bezier(0.16,1,0.3,1); }
+.fade-in-right.visible { opacity:1; transform:translateX(0); }
+.scale-in { opacity:0; transform:scale(0.8); transition:all 0.5s cubic-bezier(0.16,1,0.3,1); }
+.scale-in.visible { opacity:1; transform:scale(1); }
+
+.card-hover { transition:all 0.2s ease; }
+.card-hover:hover { transform:translate(-2px,-2px); box-shadow:8px 8px 0px 0px #000; }
+.card-hover:active { transform:translate(2px,2px); box-shadow:2px 2px 0px 0px #000; }
+
+.hover-lift { transition:transform 0.3s ease, box-shadow 0.3s ease; }
+.hover-lift:hover { transform:translateY(-4px); box-shadow:6px 6px 0px 0px #000; }
+
+.link-arrow::after { content:' \2192'; transition:transform 0.2s; display:inline-block; }
+.link-arrow:hover::after { transform:translateX(4px); }
+
+.tag { display:inline-block; padding:2px 10px; border:2px solid #000; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; }
+
+.step-line::before { content:''; position:absolute; left:23px; top:48px; bottom:-24px; width:3px; background:#000; }
+
+::selection { background:#000; color:#fff; }
+.ticker-wrap { overflow:hidden; white-space:nowrap; }
+.ticker { display:inline-block; white-space:nowrap; }
+
+.cursor-glow { position:fixed; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle,rgba(0,0,0,0.03),transparent 70%); pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
+
+::-webkit-scrollbar { width:8px; }
+::-webkit-scrollbar-track { background:#fff; }
+::-webkit-scrollbar-thumb { background:#000; }
+::-webkit-scrollbar-thumb:hover { background:#333; }
+</style>
+</head>
+<body class="bg-white text-black font-display">
+
+<!-- CURSOR GLOW -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- NAV -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b-[3px] border-black">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3" id="logoTrigger">
+      <div class="w-9 h-9 bg-black text-white border-2 border-black shadow-brutal flex items-center justify-center font-bold text-sm">B</div>
+      <span class="font-bold text-lg hidden sm:block">Baptiste <span class="font-black">Fort</span></span>
+    </div>
+    <div class="flex gap-2 sm:gap-4 text-xs sm:text-sm font-bold">
+      <a href="#partie1" class="text-black/50 hover:text-black transition-colors">Bonaparte</a>
+      <a href="#resultats" class="text-black/50 hover:text-black transition-colors">Résultats</a>
+      <a href="#partie2" class="text-black/50 hover:text-black transition-colors">Propositions</a>
+      <a href="#scraping" class="text-black/50 hover:text-black transition-colors">Scraping</a>
+      <a href="#documents" class="text-black/50 hover:text-black transition-colors">Documents</a>
+      <a href="#suivi" class="text-black/50 hover:text-black transition-colors">Suivi</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================ -->
+<!-- SECTION 1: HERO -->
+<!-- ============================================ -->
+<section class="min-h-screen flex items-center pt-16 relative overflow-hidden">
+  <div class="absolute top-20 right-10 w-40 h-40 border-2 border-black/10 rounded-full animate-float hidden lg:block"></div>
+  <div class="absolute bottom-32 left-10 w-24 h-24 border-2 border-black/10 rotate-45 animate-float hidden lg:block" style="animation-delay:1.2s"></div>
+  <div class="absolute top-1/3 right-1/4 w-6 h-6 border-2 border-black/20 animate-float" style="animation-delay:0.7s"></div>
+
+  <div class="max-w-7xl mx-auto px-4 py-20">
+    <div class="max-w-4xl">
+      <div class="inline-flex gap-2 mb-6">
+        <span class="tag bg-black text-white">Présentation</span>
+        <span class="tag">Mars 2026</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl lg:text-8xl font-black leading-[0.92] mb-6">
+        Bonjour Sébastien,<br>
+        Patrick.
+      </h1>
+
+      <p class="text-lg sm:text-xl text-black/60 max-w-2xl mb-4 leading-relaxed">
+        Suite à notre conversation d'hier avec Sébastien, je vous ai préparé un petit récap de ce que j'ai mis en place pour le réseau Bonaparte.
+      </p>
+      <p class="text-lg sm:text-xl text-black/60 max-w-2xl mb-10 leading-relaxed">
+        En deuxième partie, quelques idées d'automatisation qui selon moi peuvent vous intéresser pour Essentiel Notaires.
+      </p>
+
+      <div class="flex flex-wrap gap-4 mb-14">
+        <a href="#partie1" class="inline-flex items-center gap-2 bg-black text-white font-bold px-8 py-4 border-2 border-black shadow-brutal-lg card-hover text-lg">
+          Partie 1 &mdash; Bonaparte
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+        </a>
+        <a href="#partie2" class="inline-flex items-center gap-2 bg-white text-black font-bold px-8 py-4 border-2 border-black shadow-brutal card-hover text-lg">
+          Partie 2 &mdash; Propositions
+        </a>
+      </div>
+
+      <!-- Hero Stats -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="border-2 border-black shadow-brutal p-4 text-center card-hover">
+          <div class="text-3xl font-black counter" data-target="27">0</div>
+          <div class="text-[10px] font-bold text-black/40 uppercase tracking-wider mt-1">Dossiers traités</div>
+        </div>
+        <div class="border-2 border-black shadow-brutal p-4 text-center card-hover">
+          <div class="text-3xl font-black counter" data-target="47">0</div>
+          <div class="text-[10px] font-bold text-black/40 uppercase tracking-wider mt-1">Rapports PDF</div>
+        </div>
+        <div class="border-2 border-black shadow-brutal p-4 text-center card-hover">
+          <div class="text-3xl font-black counter" data-target="5">0</div>
+          <div class="text-[10px] font-bold text-black/40 uppercase tracking-wider mt-1">Propositions</div>
+        </div>
+        <div class="border-2 border-black shadow-brutal p-4 text-center card-hover">
+          <div class="text-3xl font-black">24/7</div>
+          <div class="text-[10px] font-bold text-black/40 uppercase tracking-wider mt-1">Surveillance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="bg-black text-white py-3 overflow-hidden">
+  <div class="ticker-wrap">
+    <div class="ticker animate-marquee">
+      <span class="mx-8 font-bold text-sm">MANDAT DE VENTE &rarr; VÉRIFICATION AUTOMATIQUE</span>
+      <span class="mx-8 font-bold text-sm text-white/60">OFFRE D'ACHAT &rarr; VÉRIFICATION AUTOMATIQUE</span>
+      <span class="mx-8 font-bold text-sm">MANDAT DE RECHERCHE &rarr; VÉRIFICATION AUTOMATIQUE</span>
+      <span class="mx-8 font-bold text-sm text-white/60">GEL DES AVOIRS + PPE + BÉNÉFICIAIRES EFFECTIFS</span>
+      <span class="mx-8 font-bold text-sm">MANDAT DE VENTE &rarr; VÉRIFICATION AUTOMATIQUE</span>
+      <span class="mx-8 font-bold text-sm text-white/60">OFFRE D'ACHAT &rarr; VÉRIFICATION AUTOMATIQUE</span>
+      <span class="mx-8 font-bold text-sm">MANDAT DE RECHERCHE &rarr; VÉRIFICATION AUTOMATIQUE</span>
+      <span class="mx-8 font-bold text-sm text-white/60">GEL DES AVOIRS + PPE + BÉNÉFICIAIRES EFFECTIFS</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- PARTIE 1: CE QUE J'AI CONSTRUIT POUR BONAPARTE -->
+<!-- ============================================ -->
+<section id="partie1" class="py-16 sm:py-20 bg-black text-white">
+  <div class="max-w-7xl mx-auto px-4 text-center">
+    <span class="tag border-white text-white mb-4">Partie 1</span>
+    <h2 class="text-3xl sm:text-5xl font-black mt-4">Ce que j'ai mis en place<br>pour Bonaparte.</h2>
+    <p class="text-white/50 mt-4 max-w-xl mx-auto">Un système de vérification LCB-FT automatisé qui tourne depuis février 2026.</p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 2: LE PROBLEME -->
+<!-- ============================================ -->
+<section id="probleme" class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-2xl mb-16 fade-in">
+      <span class="tag mb-4">Le problème</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">La conformité LCB-FT,<br>c'est chronophage.</h2>
+      <p class="text-lg text-black/60">Aujourd'hui, pour chaque dossier, il faut manuellement verifier chaque personne sur les listes officielles. Ça prend du temps, c'est répétitif, et le risque d'oubli est réel.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="border-2 border-black p-6 fade-in hover-lift">
+        <div class="w-12 h-12 border-2 border-black flex items-center justify-center text-2xl mb-4">&#9200;</div>
+        <h3 class="font-black text-lg mb-2">Temps perdu</h3>
+        <p class="text-black/60 text-sm leading-relaxed">Chaque vérification manuelle prend entre 10 et 20 minutes par personne. Sur un dossier avec 3 parties, ça fait presque une heure de travail administratif pur.</p>
+      </div>
+
+      <div class="border-2 border-black p-6 fade-in hover-lift">
+        <div class="w-12 h-12 border-2 border-black flex items-center justify-center text-2xl mb-4">&#9888;</div>
+        <h3 class="font-black text-lg mb-2">Risque d'oubli</h3>
+        <p class="text-black/60 text-sm leading-relaxed">Avec le volume de mandats et d'offres, il arrive que certains dossiers passent entre les mailles. Un oubli de vérification, c'est un risque réglementaire pour tout le réseau.</p>
+      </div>
+
+      <div class="border-2 border-black p-6 fade-in hover-lift">
+        <div class="w-12 h-12 border-2 border-black flex items-center justify-center text-2xl mb-4">&#128451;</div>
+        <h3 class="font-black text-lg mb-2">Rapports éparpillés</h3>
+        <p class="text-black/60 text-sm leading-relaxed">Les rapports de conformité sont générés à part, stockés dans des dossiers différents. Quand il faut les retrouver pour un controle, c'est la galère.</p>
+      </div>
+    </div>
+
+    <!-- Comparison -->
+    <div class="mt-16 grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <div class="border-2 border-black border-dashed p-6 fade-in">
+        <div class="text-xs font-black uppercase tracking-wider mb-4">&#10007; Avant (manuel)</div>
+        <ul class="space-y-3 text-sm text-black/60">
+          <li class="flex gap-2"><span class="font-black">&#10007;</span> Vérification manuelle sur chaque site</li>
+          <li class="flex gap-2"><span class="font-black">&#10007;</span> 15-20 min par personne</li>
+          <li class="flex gap-2"><span class="font-black">&#10007;</span> Risque d'oublier un dossier</li>
+          <li class="flex gap-2"><span class="font-black">&#10007;</span> Rapport a générer et stocker à part</li>
+          <li class="flex gap-2"><span class="font-black">&#10007;</span> Pas de trace dans MyNotary</li>
+          <li class="flex gap-2"><span class="font-black">&#10007;</span> Aucune visibilite pour la direction</li>
+        </ul>
+      </div>
+      <div class="border-2 border-black p-6 shadow-brutal fade-in">
+        <div class="text-xs font-black uppercase tracking-wider mb-4">&#10003; Maintenant (automatique)</div>
+        <ul class="space-y-3 text-sm text-black/60">
+          <li class="flex gap-2"><span class="font-black">&#10003;</span> Vérification automatique dès la signature</li>
+          <li class="flex gap-2"><span class="font-black">&#10003;</span> 0 minute de travail humain</li>
+          <li class="flex gap-2"><span class="font-black">&#10003;</span> Aucun dossier oublié, jamais</li>
+          <li class="flex gap-2"><span class="font-black">&#10003;</span> PDF généré et déposé dans MyNotary</li>
+          <li class="flex gap-2"><span class="font-black">&#10003;</span> Tout centralisé au bon endroit</li>
+          <li class="flex gap-2"><span class="font-black">&#10003;</span> Rapport quotidien par email</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 3: LA SOLUTION -->
+<!-- ============================================ -->
+<section id="solution" class="py-24 sm:py-32 border-b-2 border-black/10 relative overflow-hidden">
+  <div class="absolute top-10 left-10 w-32 h-32 border-2 border-black/5 rounded-full animate-spin-slow hidden lg:block"></div>
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-3xl mb-16 fade-in">
+      <span class="tag mb-4">La solution</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Un système qui fait<br>le travail à votre place.</h2>
+      <p class="text-lg text-black/60 leading-relaxed">Bonaparte LCB-FT est un système automatisé qui tourne 24h/24 sur un serveur dédié. Il surveille en permanence les contrats signés sur MyNotary, vérifie chaque client sur les listes officielles, et dépose le rapport de conformité directement dans le bon dossier. Personne n'a rien à faire.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="border-2 border-black p-6 card-hover fade-in group">
+        <div class="w-14 h-14 border-2 border-black flex items-center justify-center text-3xl mb-4 group-hover:bg-black group-hover:text-white transition-colors">&#128269;</div>
+        <h3 class="font-black text-base mb-2">Détection automatique</h3>
+        <p class="text-black/50 text-sm">Toutes les 5 minutes, le système scanne MyNotary pour trouver les nouveaux contrats signés.</p>
+      </div>
+
+      <div class="border-2 border-black p-6 card-hover fade-in group">
+        <div class="w-14 h-14 border-2 border-black flex items-center justify-center text-3xl mb-4 group-hover:bg-black group-hover:text-white transition-colors">&#128100;</div>
+        <h3 class="font-black text-base mb-2">Extraction clients</h3>
+        <p class="text-black/50 text-sm">Il identifie les vrais clients (vendeurs, acquéreurs) et ignore les intermédiaires (négociateurs, agents).</p>
+      </div>
+
+      <div class="border-2 border-black p-6 card-hover fade-in group">
+        <div class="w-14 h-14 border-2 border-black flex items-center justify-center text-3xl mb-4 group-hover:bg-black group-hover:text-white transition-colors">&#9989;</div>
+        <h3 class="font-black text-base mb-2">Vérification complète</h3>
+        <p class="text-black/50 text-sm">Gel des avoirs, PPE, et bénéficiaires effectifs pour les sociétés. Tout est vérifié sur les listes officielles.</p>
+      </div>
+
+      <div class="border-2 border-black p-6 card-hover fade-in group">
+        <div class="w-14 h-14 border-2 border-black flex items-center justify-center text-3xl mb-4 group-hover:bg-black group-hover:text-white transition-colors">&#128196;</div>
+        <h3 class="font-black text-base mb-2">Rapport + depot</h3>
+        <p class="text-black/50 text-sm">Un PDF de conformité est généré pour chaque personne et uploade automatiquement dans le dossier MyNotary.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 4: PIPELINE TECHNIQUE -->
+<!-- ============================================ -->
+<section id="pipeline" class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-2xl mb-16 fade-in">
+      <span class="tag mb-4">Pipeline</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Comment ça marche<br>concrètement ?</h2>
+      <p class="text-lg text-black/60">Le système tourne tout seul, toutes les 5 minutes, 24h/24. Voici les 4 étapes du processus, du contrat signé au rapport dans MyNotary.</p>
+    </div>
+
+    <div class="grid gap-8 max-w-3xl">
+      <div class="flex gap-5 fade-in relative step-line">
+        <div class="w-12 h-12 bg-black text-white border-2 border-black shadow-brutal flex items-center justify-center font-black text-lg shrink-0">1</div>
+        <div>
+          <h3 class="font-black text-xl mb-2">Un contrat est signé sur MyNotary</h3>
+          <p class="text-black/60 mb-3">Dès qu'un mandat de vente, un mandat de recherche ou une offre d'achat est signé électroniquement sur MyNotary, le système le détecte automatiquement dans les 5 minutes.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag text-[10px]">Mandat de vente</span>
+            <span class="tag text-[10px]">Offre d'achat</span>
+            <span class="tag text-[10px]">Mandat de recherche</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-5 fade-in relative step-line">
+        <div class="w-12 h-12 bg-black text-white border-2 border-black shadow-brutal flex items-center justify-center font-black text-lg shrink-0">2</div>
+        <div>
+          <h3 class="font-black text-xl mb-2">Extraction et identification des clients</h3>
+          <p class="text-black/60 mb-3">Le système récupère les informations de chaque partie au contrat via l'API MyNotary. Il filtre intelligemment : seuls les <strong>vendeurs et acquéreurs</strong> sont vérifiés. Les négociateurs et agents immobiliers sont ignorés &mdash; ce ne sont pas des parties a l'acte.</p>
+          <div class="border-2 border-black/20 p-3 mt-3 font-mono text-xs">
+            <span class="font-bold">&#10003; Vendeur</span> &nbsp; <span class="font-bold">&#10003; Acquereur</span> &nbsp; <span class="font-bold">&#10003; Offrant</span><br>
+            <span class="text-black/40">&#10007; Négociateur</span> &nbsp; <span class="text-black/40">&#10007; Agent immobilier</span> &nbsp; <span class="text-black/40">&#10007; Bien vendu</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-5 fade-in relative step-line">
+        <div class="w-12 h-12 bg-black text-white border-2 border-black shadow-brutal flex items-center justify-center font-black text-lg shrink-0">3</div>
+        <div>
+          <h3 class="font-black text-xl mb-2">Vérification sur les listes officielles</h3>
+          <p class="text-black/60 mb-3">Chaque personne est vérifiée via l'API Efficiale sur deux listes :</p>
+          <div class="grid sm:grid-cols-2 gap-3 mb-3">
+            <div class="border-2 border-black p-3">
+              <div class="font-black text-sm mb-1">Gel des avoirs</div>
+              <div class="text-xs text-black/50">Personnes et entites sous sanctions financieres de l'UE et de la France.</div>
+            </div>
+            <div class="border-2 border-black p-3">
+              <div class="font-black text-sm mb-1">PPE</div>
+              <div class="text-xs text-black/50">Élus, hauts fonctionnaires, dirigeants d'entreprises publiques, et leur entourage.</div>
+            </div>
+          </div>
+          <p class="text-black/60 text-sm">Pour les <strong>sociétés</strong> (SCI, SARL...), le système récupère en plus les <strong>bénéficiaires effectifs</strong> via le SIREN, puis vérifie chacun d'entre eux individuellement.</p>
+        </div>
+      </div>
+
+      <div class="flex gap-5 fade-in relative">
+        <div class="w-12 h-12 bg-black text-white border-2 border-black shadow-brutal flex items-center justify-center font-black text-lg shrink-0">4</div>
+        <div>
+          <h3 class="font-black text-xl mb-2">Génération du PDF et depot dans MyNotary</h3>
+          <p class="text-black/60 mb-3">Pour chaque personne vérifiée, un rapport PDF complet est généré : identite, résultats des recherches, alertes eventuelles, bénéficiaires effectifs si société. Le PDF est ensuite uploade automatiquement dans l'<strong>espace de stockage</strong> du dossier MyNotary correspondant.</p>
+          <div class="border-2 border-black bg-black/5 p-3 mt-3">
+            <p class="text-sm font-bold">Résultat : le rapport est là où vous en avez besoin, sans aucune action de votre part.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual Schema -->
+    <div class="mt-16 border-2 border-black shadow-brutal-lg p-6 sm:p-10 fade-in max-w-3xl">
+      <div class="text-xs font-black uppercase tracking-wider mb-6 text-black/40">Schema du pipeline</div>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+        <div class="border-2 border-black shadow-brutal px-5 py-4 font-bold animate-shake w-full sm:w-auto">
+          <div class="text-2xl mb-1">&#128221;</div>
+          <div class="text-xs font-black">Contrat signé</div>
+          <div class="text-[10px] text-black/40 mt-1">MyNotary</div>
+        </div>
+        <div class="font-black text-2xl rotate-90 sm:rotate-0">&rarr;</div>
+        <div class="border-2 border-black shadow-brutal px-5 py-4 font-bold animate-shake w-full sm:w-auto">
+          <div class="text-2xl mb-1">&#128269;</div>
+          <div class="text-xs font-black">Vérification</div>
+          <div class="text-[10px] text-black/40 mt-1">Efficiale API</div>
+        </div>
+        <div class="font-black text-2xl rotate-90 sm:rotate-0">&rarr;</div>
+        <div class="border-2 border-black shadow-brutal px-5 py-4 font-bold animate-shake w-full sm:w-auto">
+          <div class="text-2xl mb-1">&#128196;</div>
+          <div class="text-xs font-black">Rapport PDF</div>
+          <div class="text-[10px] text-black/40 mt-1">Puppeteer</div>
+        </div>
+        <div class="font-black text-2xl rotate-90 sm:rotate-0">&rarr;</div>
+        <div class="bg-black text-white border-2 border-black shadow-brutal-lg px-5 py-4 font-bold animate-shake w-full sm:w-auto">
+          <div class="text-2xl mb-1">&#128193;</div>
+          <div class="text-xs font-black">Depot auto</div>
+          <div class="text-[10px] text-white/60 mt-1">MyNotary</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 5: QUOI EST VERIFIE -->
+<!-- ============================================ -->
+<section class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-2xl mb-16 fade-in">
+      <span class="tag mb-4">Vérifications</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Qu'est-ce qui est<br>vérifié exactement ?</h2>
+      <p class="text-lg text-black/60">Chaque client est passe au crible sur les bases de donnees officielles. Pour les sociétés, on va encore plus loin avec les bénéficiaires effectifs.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8">
+      <div class="border-2 border-black p-8 fade-in-left hover-lift">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 border-2 border-black flex items-center justify-center text-2xl">&#128100;</div>
+          <div>
+            <h3 class="font-black text-xl">Personne physique</h3>
+            <p class="text-xs text-black/40">M. Dupont, Mme Martin...</p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div class="border-2 border-black/20 p-4">
+            <span class="font-black text-sm">Gel des avoirs</span>
+            <p class="text-xs text-black/50 mt-1">Vérification sur la liste nationale de gel des avoirs (sanctions financieres). Source : Trésor Public / UE.</p>
+          </div>
+          <div class="border-2 border-black/20 p-4">
+            <span class="font-black text-sm">PPE internationale</span>
+            <p class="text-xs text-black/50 mt-1">Vérification si la personne est politiquement exposée : élu, haut fonctionnaire, dirigeant d'entreprise publique, ou entourage proche.</p>
+          </div>
+          <div class="border-2 border-black bg-black/5 p-3 mt-4">
+            <p class="text-xs font-bold">2 vérifications par personne, en parallèle</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-2 border-black p-8 shadow-brutal fade-in-right hover-lift">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 bg-black text-white border-2 border-black flex items-center justify-center text-2xl">&#127970;</div>
+          <div>
+            <h3 class="font-black text-xl">Société (SCI, SARL...)</h3>
+            <p class="text-xs text-black/40">Identifiée par son SIREN</p>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div class="border-2 border-black/20 p-4">
+            <span class="font-black text-sm">Bénéficiaires effectifs</span>
+            <p class="text-xs text-black/50 mt-1">Récupération de tous les bénéficiaires effectifs via le SIREN (source : INPI / RBE). Personnes physiques et morales.</p>
+          </div>
+          <div class="border-2 border-black/20 p-4">
+            <span class="font-black text-sm">Gel + PPE par bénéficiaire</span>
+            <p class="text-xs text-black/50 mt-1">Chaque bénéficiaire effectif (personne physique) est ensuite vérifié individuellement sur les listes de gel et PPE.</p>
+          </div>
+          <div class="border-2 border-black bg-black/5 p-3 mt-4">
+            <p class="text-xs font-bold">Bénéficiaires effectifs + 2 vérifications par bénéficiaire</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 border-2 border-black p-6 sm:p-8 max-w-4xl mx-auto fade-in">
+      <div class="text-xs font-black uppercase tracking-wider mb-4 text-black/40">Exemple concret — SCI 3PELLOUTIER (Boulogne-Billancourt)</div>
+      <div class="grid sm:grid-cols-3 gap-4">
+        <div class="border-2 border-black/20 p-4 text-center">
+          <div class="text-2xl mb-2">&#127970;</div>
+          <div class="font-bold text-sm">SCI 3PELLOUTIER</div>
+          <div class="text-[10px] text-black/40 mt-1">SIREN détecté</div>
+        </div>
+        <div class="border-2 border-black/20 p-4 text-center">
+          <div class="text-2xl mb-2">&#128101;</div>
+          <div class="font-bold text-sm">Bénéficiaires extraits</div>
+          <div class="text-[10px] text-black/40 mt-1">Via API Efficiale + INPI</div>
+        </div>
+        <div class="border-2 border-black p-4 text-center shadow-brutal">
+          <div class="text-2xl mb-2">&#9989;</div>
+          <div class="font-bold text-sm">Chacun vérifié</div>
+          <div class="text-[10px] text-black/40 mt-1">Gel + PPE par personne</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 6: DOCUMENTS DECLENCHEURS -->
+<!-- ============================================ -->
+<section class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-2xl mb-16 fade-in">
+      <span class="tag mb-4">Déclencheurs</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Quels documents<br>déclenchent la vérification ?</h2>
+      <p class="text-lg text-black/60">Pas tous les documents. Seulement les 3 types de contrats qui impliquent de vrais clients avec des obligations LCB-FT.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-3 gap-6 max-w-4xl">
+      <div class="border-2 border-black p-6 card-hover fade-in">
+        <div class="text-4xl mb-4">&#127968;</div>
+        <h3 class="font-black text-lg mb-2">Mandat de vente</h3>
+        <p class="text-black/50 text-sm mb-4">Quand un proprietaire confie la vente de son bien au réseau Bonaparte.</p>
+        <div class="border-t-2 border-black/10 pt-3 mt-3">
+          <div class="text-xs text-black/40 mb-1">Qui est vérifié :</div>
+          <span class="tag text-[10px]">Le vendeur</span>
+        </div>
+        <div class="mt-3 text-xs font-mono text-black/30">19 mandats en février</div>
+      </div>
+
+      <div class="border-2 border-black p-6 card-hover fade-in">
+        <div class="text-4xl mb-4">&#128176;</div>
+        <h3 class="font-black text-lg mb-2">Offre d'achat</h3>
+        <p class="text-black/50 text-sm mb-4">Quand un acquéreur fait une offre sur un bien en vente.</p>
+        <div class="border-t-2 border-black/10 pt-3 mt-3">
+          <div class="text-xs text-black/40 mb-1">Qui est vérifié :</div>
+          <span class="tag text-[10px]">L'acquéreur</span>
+        </div>
+        <div class="mt-3 text-xs font-mono text-black/30">4 offres en février</div>
+      </div>
+
+      <div class="border-2 border-black p-6 card-hover fade-in">
+        <div class="text-4xl mb-4">&#128270;</div>
+        <h3 class="font-black text-lg mb-2">Mandat de recherche</h3>
+        <p class="text-black/50 text-sm mb-4">Quand un client mandate le réseau pour trouver un bien.</p>
+        <div class="border-t-2 border-black/10 pt-3 mt-3">
+          <div class="text-xs text-black/40 mb-1">Qui est vérifié :</div>
+          <span class="tag text-[10px]">Le client</span>
+        </div>
+        <div class="mt-3 text-xs font-mono text-black/30">4 mandats en février</div>
+      </div>
+    </div>
+
+    <div class="mt-10 border-2 border-black/20 p-5 max-w-4xl fade-in">
+      <p class="text-sm text-black/60"><strong>Précision importante :</strong> le système ne vérifie que les parties directement concernées par l'acte. Les négociateurs Bonaparte et les agents immobiliers sont automatiquement ignorés &mdash; ils ne sont pas soumis aux obligations LCB-FT dans ce contexte.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 7: LE RAPPORT PDF -->
+<!-- ============================================ -->
+<section class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-2xl mb-16 fade-in">
+      <span class="tag mb-4">Rapport</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Le rapport PDF<br>de conformité</h2>
+      <p class="text-lg text-black/60">Chaque personne vérifiée génère un rapport PDF complet qui est déposé directement dans le dossier MyNotary. Voici ce qu'il contient.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 max-w-5xl">
+      <div class="space-y-4 fade-in-left">
+        <div class="border-2 border-black/20 p-5 card-hover">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 bg-black text-white flex items-center justify-center text-sm font-bold">1</div>
+            <h4 class="font-bold">En-tete</h4>
+          </div>
+          <p class="text-sm text-black/50">Nom de l'opérateur, date de vérification, référence du dossier, type de contrat.</p>
+        </div>
+        <div class="border-2 border-black/20 p-5 card-hover">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 bg-black text-white flex items-center justify-center text-sm font-bold">2</div>
+            <h4 class="font-bold">Identité complète</h4>
+          </div>
+          <p class="text-sm text-black/50">Nom, prénom, date de naissance, lieu de naissance, nationalité, adresse. Pour les sociétés : dénomination, SIREN, forme juridique, siège.</p>
+        </div>
+        <div class="border-2 border-black/20 p-5 card-hover">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 bg-black text-white flex items-center justify-center text-sm font-bold">3</div>
+            <h4 class="font-bold">Résultat des vérifications</h4>
+          </div>
+          <p class="text-sm text-black/50">Résultat Gel des avoirs (nombre de correspondances), résultat PPE (nombre de correspondances), avec le detail de chaque alerte.</p>
+        </div>
+        <div class="border-2 border-black/20 p-5 card-hover">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 bg-black text-white flex items-center justify-center text-sm font-bold">4</div>
+            <h4 class="font-bold">Bénéficiaires effectifs</h4>
+          </div>
+          <p class="text-sm text-black/50">Si c'est une société : liste complète des bénéficiaires effectifs avec leur participation (%), et le résultat de vérification de chacun.</p>
+        </div>
+      </div>
+
+      <!-- PDF Preview -->
+      <div class="fade-in-right">
+        <div class="border-[3px] border-black shadow-brutal-xl p-6 sm:p-8 relative">
+          <div class="text-center mb-6">
+            <div class="text-xs font-black uppercase tracking-wider text-black/40">Rapport de conformité LCB-FT</div>
+            <div class="text-lg font-black mt-1">BEKER Nicolas</div>
+            <div class="text-xs text-black/40">Mandat de vente — 14/02/2026</div>
+          </div>
+          <div class="border-t-2 border-black/10 pt-4 mb-4">
+            <div class="text-xs font-black uppercase text-black/40 mb-2">Identité</div>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div><span class="text-black/40">Nom :</span> <strong>BEKER</strong></div>
+              <div><span class="text-black/40">Prenom :</span> <strong>Nicolas</strong></div>
+              <div class="col-span-2"><span class="text-black/40">Adresse :</span> <strong>Rue du Cirque, Paris 8</strong></div>
+            </div>
+          </div>
+          <div class="border-t-2 border-black/10 pt-4 mb-4">
+            <div class="text-xs font-black uppercase text-black/40 mb-2">Vérifications</div>
+            <div class="space-y-2">
+              <div class="flex justify-between items-center p-2 border-2 border-black/10 text-xs">
+                <span>Gel des avoirs</span>
+                <strong>0 résultat</strong>
+              </div>
+              <div class="flex justify-between items-center p-2 border-2 border-black text-xs">
+                <span>PPE internationale</span>
+                <strong>1 correspondance &#9888;</strong>
+              </div>
+            </div>
+          </div>
+          <div class="border-t-2 border-black/10 pt-4">
+            <div class="text-xs font-black uppercase mb-2">&#9888; Alerte PPE</div>
+            <div class="border-2 border-black p-2 text-[10px] text-black/60">
+              Correspondance trouvée sur les listes PPE internationales. Vérification manuelle recommandée.
+            </div>
+          </div>
+          <div class="mt-6 text-center text-[9px] text-black/30">
+            Généré automatiquement par Bonaparte LCB-FT — Efficiale API v5
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <span class="text-xs text-black/30">Aperçu simplifié d'un rapport réel</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 8: RESULTATS FEVRIER 2026 -->
+<!-- ============================================ -->
+<section id="resultats" class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-2xl mb-12 fade-in">
+      <span class="tag bg-black text-white mb-4">Février 2026</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">27 dossiers<br>déjà traités.</h2>
+      <p class="text-lg text-black/60">Voici la liste complète des dossiers vérifiés automatiquement en février. Chaque ligne correspond a un dossier avec ses parties, le type de contrat, et les rapports PDF générés.</p>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10 max-w-3xl">
+      <div class="border-2 border-black p-4 text-center scale-in">
+        <div class="text-2xl font-black">19</div>
+        <div class="text-[10px] font-bold text-black/40 uppercase">Mandats de vente</div>
+      </div>
+      <div class="border-2 border-black p-4 text-center scale-in">
+        <div class="text-2xl font-black">4</div>
+        <div class="text-[10px] font-bold text-black/40 uppercase">Offres d'achat</div>
+      </div>
+      <div class="border-2 border-black p-4 text-center scale-in">
+        <div class="text-2xl font-black">4</div>
+        <div class="text-[10px] font-bold text-black/40 uppercase">Mandats recherche</div>
+      </div>
+      <div class="border-2 border-black shadow-brutal p-4 text-center scale-in">
+        <div class="text-2xl font-black">47</div>
+        <div class="text-[10px] font-bold text-black/40 uppercase">Rapports PDF</div>
+      </div>
+    </div>
+
+    <div class="grid gap-2" id="dossiers-grid">
+      <div class="border-2 border-black bg-black/5 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><div class="flex items-center gap-2 flex-wrap mb-1"><span class="tag text-[10px]">Mandat de vente</span><span class="tag bg-black text-white text-[10px]">ALERTE PPE</span></div><h3 class="font-bold text-sm truncate">BEKER Nicolas / Rue du Cirque Paris 8</h3></div><span class="text-xs font-mono text-black/40">1 PDF</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de recherche</span><h3 class="font-bold text-sm truncate mt-1">BELGACEM Setiti</h3></div><span class="text-xs font-mono text-black/40">1 PDF</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">DENAES Arthur / Ferney-Voltaire</h3></div><span class="text-xs font-mono text-black/40">1 PDF</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">3PELLOUTIER (SCI) / Boulogne-Billancourt</h3></div><span class="text-xs font-mono text-black/40">1 PDF</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">BUNGENER Tina / VIATEUR Alexandre</h3></div><span class="text-xs font-mono text-black/40">2 PDFs</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">DIARRA - BERTE Sanaba / DIARRA Ibrahima</h3></div><span class="text-xs font-mono text-black/40">2 PDFs</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">BOTELLA Eric / MON WEN PIN Vanessa / Saint-Raphael</h3></div><span class="text-xs font-mono text-black/40">2 PDFs</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">MAZOYER GRILLET / GRILLET / ALZAMEL</h3></div><span class="text-xs font-mono text-black/40">3 PDFs</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">COCQUET Stephanie / RAQUILLET Romain / Paris 13</h3></div><span class="text-xs font-mono text-black/40">2 PDFs</span></div></div>
+      <div class="border-2 border-black bg-black/5 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><div class="flex items-center gap-2 flex-wrap mb-1"><span class="tag text-[10px]">Offre d'achat</span><span class="tag bg-black text-white text-[10px]">ALERTE PPE</span></div><h3 class="font-bold text-sm truncate">LELIEVRE Laure / DAHEUILLE Cyril / Loire-Authion</h3></div><span class="text-xs font-mono text-black/40">2 PDFs</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">FILSKOV Joy / Cannes</h3></div><span class="text-xs font-mono text-black/40">1 PDF</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">JMSD INVEST (SCI) / Maison Canapville</h3></div><span class="text-xs font-mono text-black/40">1 PDF</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">ANTOINE Caroline / Paris 11</h3></div><span class="text-xs font-mono text-black/40">1 PDF</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">CARROT Jocelyn / CARROT Raquel / Jujurieux</h3></div><span class="text-xs font-mono text-black/40">2 PDFs</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Offre d'achat</span><h3 class="font-bold text-sm truncate mt-1">GILLIAR Erika / GILLIAR James / ALBONI Alexandre</h3></div><span class="text-xs font-mono text-black/40">3 PDFs</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Offre d'achat</span><h3 class="font-bold text-sm truncate mt-1">TACK Louis / LE PAGE Michael / CHEVALLIER Marie-Francoise</h3></div><span class="text-xs font-mono text-black/40">3 PDFs</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">HUON-DUMENTAT Melea / HUON-DUMENTAT Alaxira / HUON Bernard / Marly-le-Roi</h3></div><span class="text-xs font-mono text-black/40">3 PDFs</span></div></div>
+      <div class="border-2 border-black bg-black/5 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><div class="flex items-center gap-2 flex-wrap mb-1"><span class="tag text-[10px]">Mandat de vente</span><span class="tag bg-black text-white text-[10px]">ALERTE PPE</span></div><h3 class="font-bold text-sm truncate">BAILLY Thomas / Courbevoie</h3></div><span class="text-xs font-mono text-black/40">1 PDF</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">LAIR Florian / Paris 10</h3></div><span class="text-xs font-mono text-black/40">1 PDF</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">SCI DE LA LAUVE / Saint-Raphael</h3></div><span class="text-xs font-mono text-black/40">1 PDF</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">LEMAISTRE Arnaud / RABIAU Isabelle / Benerville</h3></div><span class="text-xs font-mono text-black/40">2 PDFs</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">BERVELT Patrick / Mandat 3270</h3></div><span class="text-xs font-mono text-black/40">1 PDF</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Offre d'achat</span><h3 class="font-bold text-sm truncate mt-1">VOS Maarten / LABOUZE Jade / DE PERTHUIS Bertrand / Cuy-Saint-Fiacre</h3></div><span class="text-xs font-mono text-black/40">3 PDFs</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">FRANCE CAPITALE (SCI) / Mandat 3278</h3></div><span class="text-xs font-mono text-black/40">1 PDF</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">LEVY Serge / LEVY Marie / Asnieres-sur-Seine</h3></div><span class="text-xs font-mono text-black/40">2 PDFs</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">LESVENAN Elisabeth / KERJEAN Charles / Saint-Malo</h3></div><span class="text-xs font-mono text-black/40">2 PDFs</span></div></div>
+      <div class="border-2 border-black/20 p-4 card-hover fade-in"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div class="flex-1 min-w-0"><span class="tag text-[10px]">Mandat de vente</span><h3 class="font-bold text-sm truncate mt-1">LECAILLON Frédérique / RAOULT Hervé / Paris 17</h3></div><span class="text-xs font-mono text-black/40">2 PDFs</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 9: ALERTES PPE -->
+<!-- ============================================ -->
+<section id="alertes" class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-2xl mb-12 fade-in">
+      <span class="tag bg-black text-white mb-4">Important</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">3 alertes PPE<br>détectées.</h2>
+      <p class="text-lg text-black/60">Le système a détecté des correspondances sur les listes de Personnes Politiquement Exposees. Ça ne veut pas dire qu'il y a un problème &mdash; dans la plupart des cas, c'est un homonyme. Mais ca demande une vérification manuelle.</p>
+    </div>
+
+    <div class="grid gap-4 max-w-3xl">
+      <div class="border-[3px] border-black p-6 fade-in animate-pulse-border shadow-brutal">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 bg-black text-white flex items-center justify-center text-3xl shrink-0 font-bold">!</div>
+          <div class="flex-1">
+            <h3 class="font-black text-xl mb-1">Thomas BAILLY</h3>
+            <p class="text-black/50 text-sm mb-3">Vendeur &mdash; Mandat 3271, Courbevoie</p>
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="tag bg-black text-white text-xs">1 alerte PPE</span>
+              <span class="tag text-xs">0 alerte Gel</span>
+            </div>
+            <p class="text-xs text-black/40">Correspondance trouvée sur la liste PPE internationale. Ouvrir le rapport PDF pour verifier si c'est la même personne ou un homonyme.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-[3px] border-black p-6 fade-in animate-pulse-border shadow-brutal" style="animation-delay:0.3s">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 bg-black text-white flex items-center justify-center text-3xl shrink-0 font-bold">!</div>
+          <div class="flex-1">
+            <h3 class="font-black text-xl mb-1">Laure LELIEVRE</h3>
+            <p class="text-black/50 text-sm mb-3">Offrant &mdash; Offre d'achat, Loire-Authion</p>
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="tag bg-black text-white text-xs">1 alerte PPE</span>
+              <span class="tag text-xs">0 alerte Gel</span>
+            </div>
+            <p class="text-xs text-black/40">Correspondance trouvée sur la liste PPE internationale. Ouvrir le rapport PDF pour verifier si c'est la même personne ou un homonyme.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-[3px] border-black p-6 fade-in animate-pulse-border shadow-brutal" style="animation-delay:0.6s">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 bg-black text-white flex items-center justify-center text-3xl shrink-0 font-bold">!</div>
+          <div class="flex-1">
+            <h3 class="font-black text-xl mb-1">Nicolas BEKER</h3>
+            <p class="text-black/50 text-sm mb-3">Vendeur &mdash; Mandat 3244, Rue du Cirque Paris 8</p>
+            <div class="flex flex-wrap gap-2 mb-3">
+              <span class="tag bg-black text-white text-xs">1 alerte PPE</span>
+              <span class="tag text-xs">0 alerte Gel</span>
+            </div>
+            <p class="text-xs text-black/40">Correspondance trouvée sur la liste PPE internationale. Ouvrir le rapport PDF pour verifier si c'est la même personne ou un homonyme.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 p-5 border-2 border-black/20 max-w-3xl fade-in">
+      <p class="text-sm text-black/60"><strong>Comment réagir :</strong> Ouvrez le rapport PDF correspondant. Comparez les informations de la liste PPE (fonction, pays, dates) avec celles de votre client. Si les donnees ne correspondent pas, c'est un homonyme et il n'y a rien à faire. Si c'est un vrai match, suivez la procedure interne de declaration.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 10: RAPPORT QUOTIDIEN -->
+<!-- ============================================ -->
+<section class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-2xl mb-16 fade-in">
+      <span class="tag mb-4">Email quotidien</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Un rapport<br>chaque matin à 9h.</h2>
+      <p class="text-lg text-black/60">Chaque matin, un email est envoyé automatiquement avec un PDF récapitulatif de toute l'activité de la veille. Pas besoin de se connecter au dashboard pour savoir ce qui s'est passe.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 max-w-5xl">
+      <div class="space-y-4 fade-in-left">
+        <div class="border-2 border-black/20 p-5 card-hover">
+          <h4 class="font-bold">Envoyé automatiquement</h4>
+          <p class="text-xs text-black/50 mt-1">Tous les matins à 9h, heure de Paris. Pas besoin de le demander.</p>
+        </div>
+        <div class="border-2 border-black/20 p-5 card-hover">
+          <h4 class="font-bold">Statistiques globales</h4>
+          <p class="text-xs text-black/50 mt-1">Nombre d'opérations, clients vérifiés, PDFs générés, alertes détectées, erreurs.</p>
+        </div>
+        <div class="border-2 border-black/20 p-5 card-hover">
+          <h4 class="font-bold">Détail par operation</h4>
+          <p class="text-xs text-black/50 mt-1">Chaque dossier traité avec l'heure, les clients, les statuts, et les liens vers MyNotary.</p>
+        </div>
+        <div class="border-2 border-black/20 p-5 card-hover">
+          <h4 class="font-bold">Alertes en évidence</h4>
+          <p class="text-xs text-black/50 mt-1">Les alertes PPE et Gel sont mises en avant avec tous les details pour action rapide.</p>
+        </div>
+      </div>
+
+      <!-- Email preview -->
+      <div class="fade-in-right">
+        <div class="border-[3px] border-black shadow-brutal-xl p-5">
+          <div class="flex items-center gap-2 mb-4 pb-3 border-b-2 border-black/10">
+            <div class="w-8 h-8 bg-black text-white flex items-center justify-center text-xs font-bold">B</div>
+            <div>
+              <div class="text-xs font-bold">Bonaparte LCB-FT</div>
+              <div class="text-[10px] text-black/40">rapport@bonaparte.fr &rarr; sebastien@bonaparte.fr</div>
+            </div>
+          </div>
+          <div class="text-center mb-4">
+            <div class="text-xs font-black uppercase text-black/40">Rapport d'activité</div>
+            <div class="text-sm font-black">Mardi 25 février 2026</div>
+          </div>
+          <div class="grid grid-cols-4 gap-2 mb-4">
+            <div class="border-2 border-black/20 p-2 text-center"><div class="text-lg font-black">5</div><div class="text-[8px] text-black/40 uppercase">Opérations</div></div>
+            <div class="border-2 border-black/20 p-2 text-center"><div class="text-lg font-black">8</div><div class="text-[8px] text-black/40 uppercase">Clients</div></div>
+            <div class="border-2 border-black/20 p-2 text-center"><div class="text-lg font-black">8</div><div class="text-[8px] text-black/40 uppercase">PDFs</div></div>
+            <div class="border-2 border-black p-2 text-center"><div class="text-lg font-black">1</div><div class="text-[8px] text-black/40 uppercase">Alertes</div></div>
+          </div>
+          <div class="space-y-2 mb-4">
+            <div class="border-2 border-black p-2 text-[10px] flex justify-between"><span class="font-bold">09:12 — BAILLY Thomas</span><strong>ALERTE PPE</strong></div>
+            <div class="border border-black/20 p-2 text-[10px] flex justify-between"><span class="font-bold">09:12 — LAIR Florian</span><span class="text-black/40">OK</span></div>
+            <div class="border border-black/20 p-2 text-[10px] flex justify-between"><span class="font-bold">11:35 — LEVY Serge / Marie</span><span class="text-black/40">OK</span></div>
+          </div>
+          <div class="text-center text-[8px] text-black/30">Bonaparte LCB-FT — rapport généré automatiquement</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 11: DASHBOARD WEB -->
+<!-- ============================================ -->
+<section class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-2xl mb-16 fade-in">
+      <span class="tag mb-4">Monitoring</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Un dashboard<br>pour tout suivre.</h2>
+      <p class="text-lg text-black/60">Une interface web protégée par mot de passe pour suivre en temps réel : dossiers traités, clients vérifiés, alertes, erreurs. Avec la possibilite de déclencher manuellement un traitement.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 max-w-5xl">
+      <div class="space-y-4 fade-in-left">
+        <div class="border-2 border-black/20 p-5 card-hover"><h4 class="font-bold">Logs en temps réel</h4><p class="text-xs text-black/50 mt-1">Chaque action du système est tracée avec horodatage. Rafraichissement automatique toutes les 30 secondes.</p></div>
+        <div class="border-2 border-black/20 p-5 card-hover"><h4 class="font-bold">Historique par date</h4><p class="text-xs text-black/50 mt-1">Sélectionnez n'importe quel jour pour consulter l'activité passée. Un fichier de log par jour.</p></div>
+        <div class="border-2 border-black/20 p-5 card-hover"><h4 class="font-bold">Execution manuelle</h4><p class="text-xs text-black/50 mt-1">Bouton pour déclencher un traitement sans attendre le prochain cycle de 5 minutes.</p></div>
+        <div class="border-2 border-black/20 p-5 card-hover"><h4 class="font-bold">Protégé par mot de passe</h4><p class="text-xs text-black/50 mt-1">Authentification Basic Auth. Seuls les utilisateurs autorisés peuvent accéder au dashboard.</p></div>
+      </div>
+
+      <div class="fade-in-right">
+        <div class="border-[3px] border-black shadow-brutal-xl p-4 font-mono text-xs">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b-2 border-black/10">
+            <span class="font-bold">BONAPARTE <span class="text-black/40 text-[10px]">PROD</span></span>
+            <div class="flex gap-2"><span class="border-2 border-black px-2 py-0.5 text-[10px] font-bold">Run</span><span class="border border-black/20 px-2 py-0.5 text-[10px]">Refresh</span></div>
+          </div>
+          <div class="grid grid-cols-3 gap-2 mb-4">
+            <div class="border border-black/20 p-2 text-center"><div class="font-bold">5</div><div class="text-[8px] text-black/40">OPS</div></div>
+            <div class="border border-black/20 p-2 text-center"><div class="font-bold">8</div><div class="text-[8px] text-black/40">PDFS</div></div>
+            <div class="border-2 border-black p-2 text-center"><div class="font-bold">1</div><div class="text-[8px] text-black/40">ALERTES</div></div>
+          </div>
+          <div class="space-y-1">
+            <div class="flex items-center gap-2 text-[10px]"><span class="text-black/30">09:12</span><strong>BAILLY Thomas</strong><span class="border border-black px-1 text-[9px] font-bold">PPE</span><span class="ml-auto">&#10003;</span></div>
+            <div class="flex items-center gap-2 text-[10px]"><span class="text-black/30">09:12</span><strong>LAIR Florian</strong><span class="ml-auto">&#10003;</span></div>
+            <div class="flex items-center gap-2 text-[10px]"><span class="text-black/30">11:35</span><strong>LEVY Serge</strong><span class="ml-auto">&#10003;</span></div>
+            <div class="flex items-center gap-2 text-[10px]"><span class="text-black/30">11:35</span><strong>LEVY Marie</strong><span class="ml-auto">&#10003;</span></div>
+            <div class="flex items-center gap-2 text-[10px]"><span class="text-black/30">14:20</span><strong>SCI FRANCE CAPITALE</strong><span class="border border-black/40 px-1 text-[9px]">SIREN</span><span class="ml-auto">&#10003;</span></div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-black/10 text-[9px] text-black/30">Last poll: 14:25 &middot; Next: 14:30 &middot; Uptime: 23d 4h</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 12: ARCHITECTURE TECHNIQUE -->
+<!-- ============================================ -->
+<section id="tech" class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-2xl mb-16 fade-in">
+      <span class="tag mb-4">Architecture</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Comment c'est<br>construit ?</h2>
+      <p class="text-lg text-black/60">Un système léger, sans dépendances inutiles, qui tourne sur un simple VPS. Trois dépendances, deux API, un serveur.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl">
+      <div class="border-2 border-black p-5 card-hover fade-in">
+        <div class="text-xs font-black uppercase tracking-wider text-black/40 mb-3">Runtime</div>
+        <div class="text-2xl font-black mb-1">Node.js 18+</div>
+        <p class="text-xs text-black/50">ESM modules, zero framework. Code natif, rapide, maintenable.</p>
+      </div>
+      <div class="border-2 border-black p-5 card-hover fade-in">
+        <div class="text-xs font-black uppercase tracking-wider text-black/40 mb-3">API 1</div>
+        <div class="text-2xl font-black mb-1">MyNotary v1</div>
+        <p class="text-xs text-black/50">Détection des contrats signés, extraction clients, upload des PDFs dans le stockage.</p>
+      </div>
+      <div class="border-2 border-black p-5 card-hover fade-in">
+        <div class="text-xs font-black uppercase tracking-wider text-black/40 mb-3">API 2</div>
+        <div class="text-2xl font-black mb-1">Efficiale v5</div>
+        <p class="text-xs text-black/50">Vérification PPE, gel des avoirs, bénéficiaires effectifs. OAuth2 + REST.</p>
+      </div>
+      <div class="border-2 border-black p-5 card-hover fade-in">
+        <div class="text-xs font-black uppercase tracking-wider text-black/40 mb-3">PDF</div>
+        <div class="text-2xl font-black mb-1">Puppeteer</div>
+        <p class="text-xs text-black/50">Chrome headless pour générer des PDF propres à partir de HTML.</p>
+      </div>
+      <div class="border-2 border-black p-5 card-hover fade-in">
+        <div class="text-xs font-black uppercase tracking-wider text-black/40 mb-3">Process</div>
+        <div class="text-2xl font-black mb-1">PM2</div>
+        <p class="text-xs text-black/50">Gestion de processus avec auto-restart, monitoring mémoire, logs persistants.</p>
+      </div>
+      <div class="border-2 border-black p-5 card-hover fade-in shadow-brutal">
+        <div class="text-xs font-black uppercase tracking-wider text-black/40 mb-3">Serveur</div>
+        <div class="text-2xl font-black mb-1">VPS Hostinger</div>
+        <p class="text-xs text-black/50">Nginx en reverse proxy, HTTPS, firewall UFW.</p>
+      </div>
+    </div>
+
+    <div class="mt-10 border-2 border-black p-6 max-w-5xl fade-in">
+      <div class="text-xs font-black uppercase tracking-wider text-black/40 mb-4">Dépendances totales du projet</div>
+      <div class="flex items-center gap-6 flex-wrap">
+        <span class="font-mono text-sm font-bold border-b-2 border-black">dotenv</span>
+        <span class="font-mono text-sm font-bold border-b-2 border-black">puppeteer</span>
+        <span class="font-mono text-sm font-bold border-b-2 border-black">nodemailer</span>
+        <div class="ml-auto"><span class="text-3xl font-black">3</span><span class="text-xs text-black/40 ml-1">dépendances. C'est tout.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 13: SECURITE & FIABILITE -->
+<!-- ============================================ -->
+<section class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-2xl mb-16 fade-in">
+      <span class="tag mb-4">Fiabilite</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Zero doublons,<br>zero oublis.</h2>
+      <p class="text-lg text-black/60">Le système est conçu pour ne jamais vérifier deux fois la même personne, ne jamais oublier un dossier, et se remettre automatiquement des erreurs.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-6 max-w-4xl">
+      <div class="border-2 border-black p-6 fade-in hover-lift">
+        <h3 class="font-black text-lg mb-2">Anti-doublons 3 niveaux</h3>
+        <ol class="space-y-2 text-xs text-black/60 mt-3">
+          <li class="flex gap-2"><strong>1.</strong> Cache des contrats déjà traités (processed.json)</li>
+          <li class="flex gap-2"><strong>2.</strong> Cache des clients déjà vérifiés par operation</li>
+          <li class="flex gap-2"><strong>3.</strong> Vérification des fichiers existants sur MyNotary avant upload</li>
+        </ol>
+      </div>
+      <div class="border-2 border-black p-6 fade-in hover-lift">
+        <h3 class="font-black text-lg mb-2">Retry automatique</h3>
+        <ul class="space-y-2 text-xs text-black/60 mt-3">
+          <li>&#8226; 3 tentatives max par contrat</li>
+          <li>&#8226; Backoff exponentiel (1s, 2s, 4s)</li>
+          <li>&#8226; Abandon propre apres 3 échecs</li>
+        </ul>
+      </div>
+      <div class="border-2 border-black p-6 fade-in hover-lift">
+        <h3 class="font-black text-lg mb-2">Logs complets</h3>
+        <ul class="space-y-2 text-xs text-black/60 mt-3">
+          <li>&#8226; Un fichier de log par jour (YYYY-MM-DD.log)</li>
+          <li>&#8226; Console + fichier + mémoire (500 derniers logs)</li>
+          <li>&#8226; 4 niveaux : info, success, warn, error</li>
+        </ul>
+      </div>
+      <div class="border-2 border-black p-6 fade-in hover-lift">
+        <h3 class="font-black text-lg mb-2">Auto-restart PM2</h3>
+        <ul class="space-y-2 text-xs text-black/60 mt-3">
+          <li>&#8226; Redémarrage auto si crash (max 10 restarts)</li>
+          <li>&#8226; Limite mémoire 500MB</li>
+          <li>&#8226; Healthcheck disponible (/health)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 14: INTEGRATION MYNOTARY -->
+<!-- ============================================ -->
+<section class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-2xl mb-16 fade-in">
+      <span class="tag mb-4">Intégration</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Intégré directement<br>dans MyNotary.</h2>
+      <p class="text-lg text-black/60">Pas d'outil supplémentaire, pas de plateforme à part. Les rapports atterrissent exactement là où vous travaillez déjà : dans l'espace de stockage de chaque dossier MyNotary.</p>
+    </div>
+
+    <div class="max-w-4xl">
+      <div class="border-2 border-black p-6 sm:p-8 fade-in">
+        <div class="text-xs font-black uppercase tracking-wider text-black/40 mb-6">Flux d'intégration</div>
+        <div class="space-y-6">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-black text-white flex items-center justify-center text-sm font-bold shrink-0">1</div>
+            <div><h4 class="font-bold text-sm">Lecture des opérations</h4><p class="text-xs text-black/50 mt-1">API MyNotary v1 — GET /opérations — le système récupère les 200 dernieres opérations et filtre par statut "signature terminee".</p></div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-black text-white flex items-center justify-center text-sm font-bold shrink-0">2</div>
+            <div><h4 class="font-bold text-sm">Extraction des records (clients)</h4><p class="text-xs text-black/50 mt-1">API MyNotary v1 — GET /records — pour chaque operation déclencheuse, extraction des vendeurs/acquéreurs avec nom, prénom, date de naissance, SIREN.</p></div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-black text-white flex items-center justify-center text-sm font-bold shrink-0">3</div>
+            <div><h4 class="font-bold text-sm">Vérification Efficiale</h4><p class="text-xs text-black/50 mt-1">API Efficiale v5 — OAuth2 + GET /search — vérification PPE et gel pour chaque personne. GET /beneficial-owners pour les sociétés.</p></div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-black text-white flex items-center justify-center text-sm font-bold shrink-0">4</div>
+            <div><h4 class="font-bold text-sm">Génération PDF (Puppeteer)</h4><p class="text-xs text-black/50 mt-1">HTML &rarr; PDF via Chrome headless. Rapport avec toutes les informations de conformité, design professionnel.</p></div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-black text-white flex items-center justify-center text-sm font-bold shrink-0">5</div>
+            <div><h4 class="font-bold text-sm">Upload dans MyNotary</h4><p class="text-xs text-black/50 mt-1">API MyNotary — POST /files &rarr; upload Google Cloud Storage &rarr; POST /drive-files — le PDF apparaît dans l'espace de stockage du dossier.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 border-2 border-black bg-black/5 p-5 fade-in">
+        <p class="text-sm text-black/60"><strong>Point clé :</strong> Tout passe par les API officielles de MyNotary et Efficiale. Pas de scraping, pas de hack. Les rapports sont attribués au compte administrateur Bonaparte (Cynthia Calcagni, ID 41750).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- PARTIE 2: PROPOSITIONS ESSENTIEL NOTAIRES -->
+<!-- ============================================ -->
+<section id="partie2" class="py-16 sm:py-20 bg-black text-white">
+  <div class="max-w-7xl mx-auto px-4 text-center">
+    <span class="tag border-white text-white mb-4">Partie 2</span>
+    <h2 class="text-3xl sm:text-5xl font-black mt-4">Idées d'automatisation<br>pour Essentiel Notaires.</h2>
+    <p class="text-white/50 mt-4 max-w-2xl mx-auto">Suite à notre échange, voici quelques pistes concrètes qui pourraient vous faire gagner du temps sur les formalités. Ce sont des idées — à creuser ensemble si certaines vous parlent.</p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- PROPOSITION 1: SCRAPING SITES DEPARTEMENTAUX -->
+<!-- ============================================ -->
+<section id="scraping" class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-3xl mb-16 fade-in">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-10 h-10 bg-black text-white flex items-center justify-center font-black text-lg border-2 border-black shadow-brutal">1</span>
+        <span class="tag">Scraping</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Récupération automatique<br>des données départementales.</h2>
+      <p class="text-lg text-black/60">Sébastien m'a expliqué que vos équipes vont sur les sites de chaque département ou commune pour récupérer des plans et des données. Et que chaque site est présenté différemment, ce qui oblige à s'adapter à chaque fois.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 max-w-5xl">
+      <div class="fade-in-left">
+        <div class="border-2 border-black p-6 mb-4">
+          <h3 class="font-black text-lg mb-3">Aujourd'hui</h3>
+          <ul class="space-y-2 text-sm text-black/60">
+            <li class="flex gap-2"><span class="font-black">&#10007;</span> Chaque département/commune a son propre site</li>
+            <li class="flex gap-2"><span class="font-black">&#10007;</span> Les données ne sont pas présentées pareil</li>
+            <li class="flex gap-2"><span class="font-black">&#10007;</span> Navigation manuelle, recherche, copier-coller</li>
+            <li class="flex gap-2"><span class="font-black">&#10007;</span> Uniformisation à refaire à chaque fois</li>
+          </ul>
+        </div>
+        <div class="border-2 border-black p-6 shadow-brutal">
+          <h3 class="font-black text-lg mb-3">Avec le système</h3>
+          <ul class="space-y-2 text-sm text-black/60">
+            <li class="flex gap-2"><span class="font-black">&#10003;</span> On donne une adresse ou une parcelle</li>
+            <li class="flex gap-2"><span class="font-black">&#10003;</span> Le système va sur le bon site automatiquement</li>
+            <li class="flex gap-2"><span class="font-black">&#10003;</span> Il s'adapte au format du site (IA si besoin)</li>
+            <li class="flex gap-2"><span class="font-black">&#10003;</span> Les données reviennent dans un format standard</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="fade-in-right">
+        <div class="border-[3px] border-black shadow-brutal-xl p-6">
+          <div class="text-xs font-black uppercase tracking-wider text-black/40 mb-4">Côté technique</div>
+          <div class="space-y-4">
+            <div class="border-2 border-black/20 p-4">
+              <span class="font-black text-sm">Navigation automatisée</span>
+              <p class="text-xs text-black/50 mt-1">Puppeteer ou Playwright pour naviguer sur les sites comme le ferait un humain. Gestion des formulaires, cartes interactives, iFrames.</p>
+            </div>
+            <div class="border-2 border-black/20 p-4">
+              <span class="font-black text-sm">Adaptation par site</span>
+              <p class="text-xs text-black/50 mt-1">Une configuration par département. Pour les sites qui changent ou les formats inconnus, un modèle IA analyse la page et trouve les données.</p>
+            </div>
+            <div class="border-2 border-black/20 p-4">
+              <span class="font-black text-sm">Sortie unifiée</span>
+              <p class="text-xs text-black/50 mt-1">Quelle que soit la source, les données sortent dans le même format, prêtes à être utilisées dans vos outils.</p>
+            </div>
+          </div>
+          <div class="border-2 border-black bg-black/5 p-3 mt-4">
+            <p class="text-xs font-bold">Gain : ce qui prend 15-20 min par site manuellement se fait en quelques secondes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- PROPOSITION 2: EXTRACTION DOCUMENTS -->
+<!-- ============================================ -->
+<section id="documents" class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-3xl mb-16 fade-in">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-10 h-10 bg-black text-white flex items-center justify-center font-black text-lg border-2 border-black shadow-brutal">2</span>
+        <span class="tag">Documents</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Extraction automatique<br>des informations clés.</h2>
+      <p class="text-lg text-black/60">Vos équipes reçoivent des documents (actes, statuts, PV d'assemblée, compromis) et doivent en extraire les informations importantes à la main. Noms, adresses, références cadastrales, montants — tout est à relire et recopier.</p>
+    </div>
+
+    <div class="max-w-4xl">
+      <div class="border-2 border-black p-8 fade-in">
+        <div class="text-xs font-black uppercase tracking-wider text-black/40 mb-6">Comment ça fonctionne</div>
+        <div class="space-y-6">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-black text-white flex items-center justify-center text-sm font-bold shrink-0">1</div>
+            <div><h4 class="font-bold text-sm">Le document arrive</h4><p class="text-xs text-black/50 mt-1">PDF, scan, image — le système accepte tous les formats. Envoyé par email, par upload, ou récupéré automatiquement.</p></div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-black text-white flex items-center justify-center text-sm font-bold shrink-0">2</div>
+            <div><h4 class="font-bold text-sm">L'IA lit le contenu</h4><p class="text-xs text-black/50 mt-1">Un modèle de vision analyse le document. Pour les scans de mauvaise qualité, une étape OCR est ajoutée avant.</p></div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-black text-white flex items-center justify-center text-sm font-bold shrink-0">3</div>
+            <div><h4 class="font-bold text-sm">Les champs sont extraits</h4><p class="text-xs text-black/50 mt-1">Noms des parties, adresses, références cadastrales, surfaces, montants, dates — structurés proprement.</p></div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 bg-black text-white flex items-center justify-center text-sm font-bold shrink-0">4</div>
+            <div><h4 class="font-bold text-sm">Les données sont utilisables</h4><p class="text-xs text-black/50 mt-1">Les informations extraites peuvent alimenter directement vos outils ou servir à lancer les formalités.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-3 gap-4 mt-6">
+        <div class="border-2 border-black/20 p-4 text-center fade-in">
+          <div class="text-2xl mb-2">&#128196;</div>
+          <div class="font-bold text-sm">Actes notariés</div>
+          <div class="text-[10px] text-black/40 mt-1">Parties, biens, montants</div>
+        </div>
+        <div class="border-2 border-black/20 p-4 text-center fade-in">
+          <div class="text-2xl mb-2">&#127970;</div>
+          <div class="font-bold text-sm">Statuts de société</div>
+          <div class="text-[10px] text-black/40 mt-1">Dénomination, SIREN, siège, associés</div>
+        </div>
+        <div class="border-2 border-black/20 p-4 text-center fade-in">
+          <div class="text-2xl mb-2">&#128221;</div>
+          <div class="font-bold text-sm">Compromis</div>
+          <div class="text-[10px] text-black/40 mt-1">Parcelles, conditions, délais</div>
+        </div>
+      </div>
+
+      <div class="border-2 border-black bg-black/5 p-5 mt-6 fade-in">
+        <p class="text-sm text-black/60"><strong>Gain :</strong> plus besoin de relire et recopier. L'extraction se fait en quelques secondes par document.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- PROPOSITION 3: RISQUES ENVIRONNEMENTAUX -->
+<!-- ============================================ -->
+<section id="risques" class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-3xl mb-16 fade-in">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-10 h-10 bg-black text-white flex items-center justify-center font-black text-lg border-2 border-black shadow-brutal">3</span>
+        <span class="tag">Risques</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Vérification automatique<br>des risques environnementaux.</h2>
+      <p class="text-lg text-black/60">Pour chaque bien, il faut vérifier s'il est situé dans une zone à risque : pollution des sols, inondation, séisme, installations classées. Ça veut dire aller sur plusieurs sites gouvernementaux un par un.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 max-w-5xl">
+      <div class="fade-in-left">
+        <div class="border-2 border-black p-6 shadow-brutal">
+          <h3 class="font-black text-lg mb-4">Sources interrogées automatiquement</h3>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center p-3 border-2 border-black/20 text-sm">
+              <span class="font-bold">Géorisques</span>
+              <span class="text-xs text-black/40">Risques naturels et technologiques</span>
+            </div>
+            <div class="flex justify-between items-center p-3 border-2 border-black/20 text-sm">
+              <span class="font-bold">ERRIAL</span>
+              <span class="text-xs text-black/40">État des risques réglementés</span>
+            </div>
+            <div class="flex justify-between items-center p-3 border-2 border-black/20 text-sm">
+              <span class="font-bold">BASIAS / BASOL</span>
+              <span class="text-xs text-black/40">Sites pollués, anciens sites industriels</span>
+            </div>
+            <div class="flex justify-between items-center p-3 border-2 border-black/20 text-sm">
+              <span class="font-bold">Cadastre</span>
+              <span class="text-xs text-black/40">Parcelles, limites, zonage</span>
+            </div>
+            <div class="flex justify-between items-center p-3 border-2 border-black/20 text-sm">
+              <span class="font-bold">Installations classées</span>
+              <span class="text-xs text-black/40">ICPE à proximité du bien</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-in-right">
+        <div class="border-[3px] border-black shadow-brutal-xl p-6">
+          <div class="text-xs font-black uppercase tracking-wider text-black/40 mb-4">Fonctionnement</div>
+          <div class="space-y-4">
+            <div class="border-2 border-black/20 p-4">
+              <span class="font-black text-sm">1 adresse en entrée</span>
+              <p class="text-xs text-black/50 mt-1">On donne l'adresse du bien ou la référence cadastrale. Le système géocode et lance les requêtes sur toutes les bases.</p>
+            </div>
+            <div class="border-2 border-black/20 p-4">
+              <span class="font-black text-sm">Requêtes en parallèle</span>
+              <p class="text-xs text-black/50 mt-1">Toutes les sources sont interrogées en même temps. APIs quand elles existent, scraping quand il n'y en a pas.</p>
+            </div>
+            <div class="border-2 border-black/20 p-4">
+              <span class="font-black text-sm">Rapport consolidé</span>
+              <p class="text-xs text-black/50 mt-1">Un seul document avec tous les résultats : risques identifiés, cartes, distances. Prêt à intégrer au dossier.</p>
+            </div>
+          </div>
+          <div class="border-2 border-black bg-black/5 p-3 mt-4">
+            <p class="text-xs font-bold">Gain : au lieu de vérifier 5 à 10 sites un par un, une seule action suffit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- PROPOSITION 4: CROISEMENT DONNEES PUBLIQUES -->
+<!-- ============================================ -->
+<section id="croisement" class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-3xl mb-16 fade-in">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-10 h-10 bg-black text-white flex items-center justify-center font-black text-lg border-2 border-black shadow-brutal">4</span>
+        <span class="tag">Croisement</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Croisement automatique<br>avec les données publiques.</h2>
+      <p class="text-lg text-black/60">Une fois les informations d'un dossier en main, il faut les vérifier et les compléter avec des sources publiques. Le système peut aller chercher ces données tout seul et les croiser.</p>
+    </div>
+
+    <div class="max-w-4xl">
+      <div class="grid sm:grid-cols-2 gap-4 mb-8">
+        <div class="border-2 border-black p-6 card-hover fade-in">
+          <div class="text-2xl mb-3">&#127970;</div>
+          <h3 class="font-black text-base mb-2">Vérification société</h3>
+          <p class="text-black/50 text-sm">À partir du SIREN ou de la dénomination : dirigeants, statuts, bénéficiaires effectifs, publications BODACC.</p>
+        </div>
+        <div class="border-2 border-black p-6 card-hover fade-in">
+          <div class="text-2xl mb-3">&#128100;</div>
+          <h3 class="font-black text-base mb-2">Vérification propriétaire</h3>
+          <p class="text-black/50 text-sm">Croisement des infos du vendeur avec le cadastre et les hypothèques pour confirmer qu'il est bien propriétaire.</p>
+        </div>
+        <div class="border-2 border-black p-6 card-hover fade-in">
+          <div class="text-2xl mb-3">&#128205;</div>
+          <h3 class="font-black text-base mb-2">Données urbanisme</h3>
+          <p class="text-black/50 text-sm">PLU, servitudes, droit de préemption — les informations d'urbanisme liées à la parcelle, récupérées automatiquement.</p>
+        </div>
+        <div class="border-2 border-black p-6 card-hover fade-in">
+          <div class="text-2xl mb-3">&#128202;</div>
+          <h3 class="font-black text-base mb-2">Données de marché</h3>
+          <p class="text-black/50 text-sm">Transactions récentes via DVF (Demandes de Valeurs Foncières) pour les prix dans le secteur.</p>
+        </div>
+      </div>
+
+      <div class="border-2 border-black p-6 fade-in">
+        <div class="text-xs font-black uppercase tracking-wider text-black/40 mb-4">APIs et sources disponibles</div>
+        <div class="flex items-center gap-4 flex-wrap">
+          <span class="font-mono text-sm font-bold border-b-2 border-black">API INPI</span>
+          <span class="font-mono text-sm font-bold border-b-2 border-black">BODACC</span>
+          <span class="font-mono text-sm font-bold border-b-2 border-black">DVF</span>
+          <span class="font-mono text-sm font-bold border-b-2 border-black">API Carto</span>
+          <span class="font-mono text-sm font-bold border-b-2 border-black">Cadastre</span>
+          <span class="font-mono text-sm font-bold border-b-2 border-black">GPU</span>
+        </div>
+      </div>
+
+      <div class="border-2 border-black bg-black/5 p-5 mt-4 fade-in">
+        <p class="text-sm text-black/60"><strong>Gain :</strong> les vérifications croisées qui prennent 20-30 min se font en quelques secondes. Et rien n'est oublié.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- PROPOSITION 5: SUIVI DES FORMALITES -->
+<!-- ============================================ -->
+<section id="suivi" class="py-24 sm:py-32 border-b-2 border-black/10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-3xl mb-16 fade-in">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="w-10 h-10 bg-black text-white flex items-center justify-center font-black text-lg border-2 border-black shadow-brutal">5</span>
+        <span class="tag">Suivi</span>
+      </div>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">Tableau de suivi<br>des formalités.</h2>
+      <p class="text-lg text-black/60">Avec le volume de dossiers, savoir où en est chaque formalité et ce qui prend du retard, c'est un vrai sujet. Un tableau de bord peut aider à y voir clair.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 max-w-5xl">
+      <div class="space-y-4 fade-in-left">
+        <div class="border-2 border-black/20 p-5 card-hover">
+          <h4 class="font-bold">Vue par dossier</h4>
+          <p class="text-xs text-black/50 mt-1">Chaque dossier a sa fiche avec la liste des formalités : faites, en cours, en attente. On voit d'un coup d'œil où ça en est.</p>
+        </div>
+        <div class="border-2 border-black/20 p-5 card-hover">
+          <h4 class="font-bold">Alertes de retard</h4>
+          <p class="text-xs text-black/50 mt-1">Quand une formalité dépasse un délai, l'équipe reçoit une notification. Plus de dossiers qui traînent sans qu'on le sache.</p>
+        </div>
+        <div class="border-2 border-black/20 p-5 card-hover">
+          <h4 class="font-bold">Vue d'ensemble</h4>
+          <p class="text-xs text-black/50 mt-1">Combien de dossiers en cours, combien en retard, quelle charge par personne. Pour mieux répartir le travail.</p>
+        </div>
+        <div class="border-2 border-black/20 p-5 card-hover">
+          <h4 class="font-bold">Historique</h4>
+          <p class="text-xs text-black/50 mt-1">Tout est tracé : qui a fait quoi, quand. Utile pour comprendre les blocages récurrents.</p>
+        </div>
+      </div>
+
+      <div class="fade-in-right">
+        <div class="border-[3px] border-black shadow-brutal-xl p-4 font-mono text-xs">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b-2 border-black/10">
+            <span class="font-bold">SUIVI FORMALITÉS <span class="text-black/40 text-[10px]">12 MARS</span></span>
+          </div>
+          <div class="grid grid-cols-3 gap-2 mb-4">
+            <div class="border border-black/20 p-2 text-center"><div class="font-bold">24</div><div class="text-[8px] text-black/40">EN COURS</div></div>
+            <div class="border border-black/20 p-2 text-center"><div class="font-bold">3</div><div class="text-[8px] text-black/40">EN RETARD</div></div>
+            <div class="border-2 border-black p-2 text-center"><div class="font-bold">156</div><div class="text-[8px] text-black/40">TERMINÉS</div></div>
+          </div>
+          <div class="space-y-1">
+            <div class="flex items-center gap-2 text-[10px]"><span class="w-2 h-2 bg-black inline-block"></span><strong>Dossier MARTIN</strong><span class="ml-auto text-black/40">4/6 formalités</span></div>
+            <div class="flex items-center gap-2 text-[10px]"><span class="w-2 h-2 bg-black inline-block"></span><strong>Dossier DUPONT</strong><span class="ml-auto text-black/40">2/8 formalités</span></div>
+            <div class="flex items-center gap-2 text-[10px]"><span class="w-2 h-2 border-2 border-black inline-block"></span><strong>Dossier BERNARD</strong><span class="border border-black px-1 text-[9px] font-bold ml-2">RETARD</span><span class="ml-auto text-black/40">5/7</span></div>
+            <div class="flex items-center gap-2 text-[10px]"><span class="w-2 h-2 bg-black inline-block"></span><strong>Dossier PETIT</strong><span class="ml-auto text-black/40">1/5 formalités</span></div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-black/10 text-[9px] text-black/30">Dernière mise à jour : 12/03/2026 14:30</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 border-2 border-black bg-black/5 p-5 max-w-5xl fade-in">
+      <p class="text-sm text-black/60"><strong>Gain :</strong> visibilité claire sur la charge de travail, plus de dossiers oubliés, meilleure répartition entre les équipes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- RECAP PROPOSITIONS -->
+<!-- ============================================ -->
+<section class="py-24 sm:py-32">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="max-w-3xl fade-in">
+      <span class="tag bg-black text-white mb-4">Pour résumer</span>
+      <h2 class="text-3xl sm:text-5xl font-black mt-4 mb-6">5 pistes,<br>à creuser ensemble.</h2>
+      <p class="text-lg text-black/60 mb-8">Ce ne sont que des idées à ce stade. Si certaines vous parlent, je creuse et je vous prépare quelque chose de plus détaillé.</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-10">
+        <div class="border-2 border-black p-4 text-center card-hover">
+          <div class="text-lg font-black">1</div>
+          <div class="text-[10px] font-bold text-black/40 uppercase mt-1">Scraping sites</div>
+        </div>
+        <div class="border-2 border-black p-4 text-center card-hover">
+          <div class="text-lg font-black">2</div>
+          <div class="text-[10px] font-bold text-black/40 uppercase mt-1">Extraction docs</div>
+        </div>
+        <div class="border-2 border-black p-4 text-center card-hover">
+          <div class="text-lg font-black">3</div>
+          <div class="text-[10px] font-bold text-black/40 uppercase mt-1">Géorisques</div>
+        </div>
+        <div class="border-2 border-black p-4 text-center card-hover">
+          <div class="text-lg font-black">4</div>
+          <div class="text-[10px] font-bold text-black/40 uppercase mt-1">Données publiques</div>
+        </div>
+        <div class="border-2 border-black p-4 text-center card-hover">
+          <div class="text-lg font-black">5</div>
+          <div class="text-[10px] font-bold text-black/40 uppercase mt-1">Suivi formalités</div>
+        </div>
+      </div>
+
+      <p class="text-black/40 text-sm">N'hésitez pas à me dire ce qui vous intéresse, je prépare un détail plus poussé sur les sujets retenus. Et si vous avez d'autres idées, n'hésitez pas à me le dire.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-black text-white py-12">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-white text-black border-2 border-white flex items-center justify-center font-bold">B</div>
+        <div>
+          <span class="font-bold text-lg">Baptiste Fort</span>
+          <div class="text-xs text-white/40">Automatisation & IA</div>
+        </div>
+      </div>
+      <div class="text-center sm:text-right">
+        <p class="text-white/60 text-sm">Présentation pour <strong class="text-white">Sébastien & Patrick</strong></p>
+        <p class="text-white/30 text-xs mt-1">Mars 2026 — Bonaparte + Essentiel Notaires</p>
+      </div>
+    </div>
+    <div class="mt-8 pt-6 border-t border-white/10 text-center">
+      <p class="text-white/30 text-xs">Partie 1 : Bonaparte LCB-FT &middot; Partie 2 : Propositions Essentiel Notaires</p>
+    </div>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-in,.fade-in-left,.fade-in-right,.scale-in').forEach(el => obs.observe(el));
+
+const cObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const t = parseInt(entry.target.dataset.target);
+      let c = 0;
+      const inc = Math.max(1, Math.floor(t / 25));
+      const timer = setInterval(() => {
+        c += inc;
+        if (c >= t) { c = t; clearInterval(timer); }
+        entry.target.textContent = c;
+      }, 40);
+      cObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => cObs.observe(el));
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+const glow = document.getElementById('cursorGlow');
+let mx = 0, my = 0, gx = 0, gy = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animGlow() {
+  gx += (mx - gx) * 0.08;
+  gy += (my - gy) * 0.08;
+  glow.style.left = gx + 'px';
+  glow.style.top = gy + 'px';
+  requestAnimationFrame(animGlow);
+}
+animGlow();
+
+let logoClicks = 0;
+document.getElementById('logoTrigger').addEventListener('click', () => {
+  logoClicks++;
+  if (logoClicks === 5) {
+    document.body.style.transition = 'filter 0.5s';
+    document.body.style.filter = 'invert(1)';
+    setTimeout(() => { document.body.style.filter = 'none'; }, 2000);
+    logoClicks = 0;
+  }
+});
+</script>
+
+</body>
+</html>
